@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Testai klausai lavinti</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">50 Hz</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">100 Hz</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">250 Hz</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">500 Hz</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">1 kHz</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">3 kHz</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">5 kHz</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">7,5 kHz</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">10 kHz</span>
+    </div>
+    <div data-key="90" class="key">
+      <kbd>Z</kbd>
+      <span class="sound">12 kHz</span>
+    </div>
+    <div data-key="88" class="key">
+      <kbd>X</kbd>
+      <span class="sound">15 kHz</span>
+    </div>
+  </div>
+  
+
+  <audio data-key="65" src="sounds/50.wav"></audio>
+  <audio data-key="83" src="sounds/100.wav"></audio>
+  <audio data-key="68" src="sounds/250.wav"></audio>
+  <audio data-key="70" src="sounds/500.wav"></audio>
+  <audio data-key="71" src="sounds/1000.wav"></audio>
+  <audio data-key="72" src="sounds/3000.wav"></audio>
+  <audio data-key="74" src="sounds/5000.wav"></audio>
+  <audio data-key="75" src="sounds/7500.wav"></audio>
+  <audio data-key="76" src="sounds/10000.wav"></audio>
+  <audio data-key="90" src="sounds/12000.wav"></audio>
+  <audio data-key="88" src="sounds/15000.wav"></audio>
+
+<script>    
+    function playSound(e) {
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        if(!audio) return; // stop the function from running all together
+        //audio.currentTime = 0; // rewind to the star
+        audio.play();
+        key.classList.add('playing');
+    }
+    
+    function pauseSound(e) {
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        if(!audio) return; // stop the function from running all together
+        //audio.currentTime = 0; // rewind to the star
+        audio.pause(); 
+    }
+    
+    function removeTransition(e) {
+        if(e.propertyName !== 'transform') return; // skip it if it's not a transform
+        console.log(e.propertyName);
+        this.classList.remove('playing');
+    }
+    
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+    window.addEventListener('keydown', playSound);
+    window.addEventListener('keyup', pauseSound);
+    
+</script>
+
+
+</body>
+</html>
